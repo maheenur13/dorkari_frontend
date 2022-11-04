@@ -21,7 +21,7 @@ export const setAuthUser = async (data: IAuth): Promise<void> => {
 	store.dispatch(authPopup({ isActive: false, type: null }));
 };
 
-export const loggedInUser = async(values:any,type:string)=> {
+export const loggedInUser = async (values: any, type: string) => {
 	if (type === 'signin') {
 		try {
 			const { data, success, message } = await authAPI.login(values);
@@ -54,6 +54,8 @@ export const loggedInUser = async(values:any,type:string)=> {
 	}
 };
 
+export const getUserData = () => {};
+
 /**
  * Revoke app user access
  */
@@ -78,7 +80,7 @@ export interface IAuth {
 	lastName: string;
 	avatarURL?: string;
 	phoneNumber?: string;
-	dateOfBirth:Date;
+	dateOfBirth: Date;
 	token: string;
 	email?: string;
 }
