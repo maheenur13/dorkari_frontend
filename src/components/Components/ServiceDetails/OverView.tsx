@@ -1,27 +1,18 @@
+import { HtmlFormatter } from '@utils/helpers';
+import { Empty } from 'antd';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 export const OverView: FC<PropsType> = ({ data }) => {
-	console.log('data', data);
 
 	return (
 		<>
-			{data.items.map((el, idx) => {
-				return (
-					<Wrapper key={idx} className="mb-4">
-						<h5 className='mb-3'>{el.title}</h5>
-						<ul>
-							{el.lists.map((el, id) => {
-								return (
-									<li className="mb-2" key={id}>
-										{el}
-									</li>
-								);
-							})}
-						</ul>
-					</Wrapper>
-				);
-			})}
+		 <div>
+            {
+                data?  <HtmlFormatter data={data} /> :  <Empty />
+            }
+            
+        </div>
 		</>
 	);
 };

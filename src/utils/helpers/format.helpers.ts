@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 /**
  * Format number to currency based on country
  * @param amount
@@ -73,3 +75,4 @@ export const formatUserOS = (value: string): string => {
 
 	return userOS;
 };
+

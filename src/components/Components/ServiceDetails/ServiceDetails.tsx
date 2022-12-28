@@ -1,39 +1,66 @@
 import { FC, useState } from 'react';
 import { RightOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { BreadCrumbPanel } from '@components/Common/BreadCrumb';
-import { Affix, Button, Card, Col, RadioChangeEvent, Row, Steps, Tabs, Tag } from 'antd';
+import { Affix, Button, Card, Col, Modal, RadioChangeEvent, Row, Steps, Tabs, Tag } from 'antd';
 import Icon, { arrowRightLine } from '@libs/icons';
+import CartPanel from '../CartPanel';
+import { useSelector } from 'react-redux';
+import { authPopup, getUserState } from '@store/actions';
+import { useDispatch } from 'react-redux';
 const { Step } = Steps;
 
 type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
-export const ServiceDetails: FC = () => {
+export const ServiceDetails: FC<any> = ({ service, currentServiceType }) => {
+	const dispatch = useDispatch();
+	const {profile} = useSelector(getUserState);
 	const [top, setTop] = useState(90);
 	const [tabPosition, setTabPosition] = useState<TabPosition>('left');
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedService, setSelectedService] = useState({});
+
+	const showModal = (el) => {
+		setSelectedService(el);
+		setIsModalOpen(true);
+	};
+
+	const handleOk = () => {
+		if(profile.email) {
+			setIsModalOpen(false);
+		}
+		else {
+			dispatch(authPopup({ isActive: true, type: 'signin' }));
+		}
+		
+	};
+
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
 
 	const changeTabPosition = (e: RadioChangeEvent) => {
 		setTabPosition(e.target.value);
 	};
 	return (
-		<Wrapper className="py-4 px-5">
+		<Wrapper className="py-4 px-5" bgImage={service?.imageUrl}>
 			<Row>
 				<Col span={18}>
 					<Row gutter={12}>
 						<Col span={24} className="my-3">
-							<BreadCrumbPanel />
+							<BreadCrumbPanel title={service?.title} />
 						</Col>
 						<Col span={24}>
-							<h2 className="text-white">Gas Stove/Burner Repair</h2>
+							<h2 className="text-white">{service?.title}</h2>
 							<Tag className="px-4 py-1 mt-3" color="#16853b">
 								<span style={{ fontSize: '1rem' }}>Rating 4.5</span>
 							</Tag>
 						</Col>
 						<Col className="mt-3" span={24}>
 							<Steps progressDot current={2} direction="vertical">
-								<Step title="Expertise" description="This is a description. This is a description." />
-								<Step title="Warranty" description="This is a description. This is a description." />
-								<Step title="Reliable" description="This is a description. This is a description." />
+								{service?.topDetails?.map((el, idx) => (
+									<Step key={idx} title={el} />
+								))}
 							</Steps>
 						</Col>
 					</Row>
@@ -41,29 +68,56 @@ export const ServiceDetails: FC = () => {
 				<Col span={6}>
 					<Affix offsetTop={top} onChange={(affixed) => console.log(affixed)}>
 						<CardWrapper style={{ width: 300 }}>
-							<h5 className="text-white">Gas Stove/Burner Repair</h5>
+							<h5 className="text-white">{service?.title}</h5>
 							<Tag className="px-4 py-1 mt-3" color="#16853b">
 								<span style={{ fontSize: '1rem' }}>Rating 4.5</span>
 							</Tag>
-							<div >
-								<Button type='primary' className='w-100 bg-dark border border-dark rounded d-flex justify-content-around align-items-center py-3 mt-3' >Stove/Burner Installation <Icon className='ms-3 ' path={arrowRightLine} fill='#ffffff' /> </Button>
-								<Button type='primary' className='w-100 bg-dark border border-dark rounded d-flex justify-content-around align-items-center py-3 mt-3' >Stove/Burner Installation <Icon className='ms-3 ' path={arrowRightLine} fill='#ffffff' /> </Button>
-								<Button type='primary' className='w-100 bg-dark border border-dark rounded d-flex justify-content-around align-items-center py-3 mt-3' >Stove/Burner Installation <Icon className='ms-3 ' path={arrowRightLine} fill='#ffffff' /> </Button>
+							<div>
+								{currentServiceType?.map((el, idx) => {
+									return (
+										<TypeBox
+											key={idx}
+											onClick={() => showModal(el)}
+											className="w-100 bg-dark border border-dark rounded  p-2 mt-3"
+										>
+											<Row>
+												<Col span={18}>
+													{' '}
+													<span style={{ fontSize: '0.725rem' }}> {el?.title}</span>
+												</Col>
+												<Col span={6}>
+													<Icon className="ms-3 " path={arrowRightLine} fill="#ffffff" />{' '}
+												</Col>
+											</Row>
+										</TypeBox>
+									);
+								})}
 							</div>
 						</CardWrapper>
 					</Affix>
 				</Col>
 			</Row>
+			<Modal
+				width={1000}
+				okText="Purchase"
+				cancelText="Cancel"
+				title="Purchase Service"
+				open={isModalOpen}
+				onOk={handleOk}
+				onCancel={handleCancel}
+			>
+				<CartPanel selectedService={selectedService} />
+			</Modal>
 		</Wrapper>
 	);
 };
 
-const Wrapper = styled.div`
-	background-image: url('/images/categories/stove_big.jpg');
-    background-attachment: fixed;
+const Wrapper = styled.div<any>`
+	background-image: url(${({ bgImage }) => bgImage});
+	background-attachment: fixed;
 	background-position: center;
 	background-size: 100% 100%;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 	position: relative;
 	&:before {
 		content: '';
@@ -78,6 +132,10 @@ const Wrapper = styled.div`
 	* {
 		color: #ffffff !important;
 	}
+`;
+
+const TypeBox = styled.div`
+	cursor: pointer;
 `;
 
 const CardWrapper = styled(Card)`

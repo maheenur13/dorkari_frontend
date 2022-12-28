@@ -1,43 +1,28 @@
-import { Col, Row, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import { FC } from 'react';
 import styled from 'styled-components';
 import { CategoryListComponent } from './CategoryListComponent';
 
-export const CategoryDetails: FC<any> = ({ categoryData }) => {
-	const carouselData: any = [
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Appliance Repair',
-			subCategories: [],
-		},
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Shifting',
-			subCategories: [],
-		},
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Cleaning & Pest Control',
-			subCategories: [],
-		},
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Electronics & Gadgets Repair',
-			subCategories: [],
-		},
-	];
-	console.log(categoryData);
+export const CategoryDetails: FC<any> = ({ categoryData,currentCategory,activeIndex,setActiveIndex }) => {
 
-	
+	const handleTabChange = (e: string) => {
+		// console.log(e);
+		setActiveIndex(e); 
+	};
+
 	return (
 		<Wrapper>
 			<Tabs
+				onChange={handleTabChange}
+				activeKey={activeIndex}
 				tabPosition="left"
-				items={carouselData.map((el, i) => {
+				items={categoryData?.map((el, i) => {
+					console.log(el);
+
 					return {
-						label: `${el.title}`,
+						label: `${el?.title}`,
 						key: i,
-						children:<CategoryListComponent item={el} />,
+						children: <CategoryListComponent item={el} />,
 					};
 				})}
 			/>
@@ -46,6 +31,6 @@ export const CategoryDetails: FC<any> = ({ categoryData }) => {
 };
 
 const Wrapper = styled.div`
-    /* max-height: 350px;
+	/* max-height: 350px;
     overflow-y: auto; */
 `;

@@ -5,15 +5,17 @@ import { OverView } from '../ServiceDetails/OverView';
 import { ItemDetails } from './ItemDetails';
 import { Review } from './Review';
 
-export const ServiceDetailsNavigation: FC<PropsType> = ({ item }) => {
+export const ServiceDetailsNavigation: FC<PropsType> = ({ item,service }) => {
+	console.log('fuch',service);
+	
 	return (
 		<Wrapper className="px-3">
 			
 			{item.title === 'Overview' ? (
-				<OverView data={item.data} />
+				<OverView data={service?.faq} />
 			) : item.title === 'Reviews' ? (
-				<Review /> 
-			) : item.title === 'Details' ? <ItemDetails/> : null }
+				<Review data={service} /> 
+			) : item.title === 'Details' ? <ItemDetails data={service?.details} /> : null }
 		</Wrapper>
 	);
 };
@@ -28,4 +30,5 @@ type PropsType = {
 		title: string;
 		data: any;
 	};
+	service:any;
 };

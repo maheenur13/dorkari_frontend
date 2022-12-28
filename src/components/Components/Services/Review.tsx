@@ -1,12 +1,12 @@
 import { UserComments } from '@components/Common';
 import { Col, Progress, Rate, Row, Statistic } from 'antd';
-import React from 'react';
+import React, {FC} from 'react';
 
-export const Review = () => {
+export const Review:FC<any> = ({data}) => {
 	return (
 		<Row gutter={12}>
 			<Col span={24}>
-				<h3>Review of Gas Stove/Burner Repair in Gulshan</h3>
+				{/* <h3>{data?.title}</h3> */}
 			</Col>
 			<Col span={4} className="my-4">
 				<Statistic title="Total Review" value={112893} />

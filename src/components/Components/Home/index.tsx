@@ -1,53 +1,33 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
 import ServicesCategories from './ServicesCategories';
 import { SpecificCategories } from '../../Common/SpecificCategories';
 import Router from 'next/router';
 import { WhyChooseUs } from '../About';
+import { useSelector } from 'react-redux';
+import { getCategoriesState } from '@store/actions';
 
 export const HomePage: FC = () => {
-	const carouselData: any = [
-		{
-			imageSrc: '/images/categories/stove.webp',
-			title: 'Gas Stove / Burner Repair',
-			subCategories: [],
-			slug:'gas_or_burner_repair',
-		},
-		{
-			imageSrc: '/images/categories/worker.webp',
-			title: 'Plumbing and Sanitary Services',
-			subCategories: [],
-			slug:'plumbing_sanitary_repair',
-
-		},
-		{
-			imageSrc: '/images/categories/worker.webp',
-			title: 'Cleaning & Pest Control',
-			subCategories: [],
-			slug:'cleaning_pest_control',
-			
-		},
-		{
-			imageSrc: '/images/categories/worker.webp',
-			title: 'Painting Service',
-			subCategories: [],
-			slug:'cleaning_pest_control',
-			
-		},
-		{
-			imageSrc: '/images/categories/worker.webp',
-			title: 'Electronics & Gadgets Repair',
-			subCategories: [],
-			slug:'electronics_gadgets_repair',
-		},
-	];
+	const { categoriesData,allServices } = useSelector(getCategoriesState);
+	const [services,setServices] = useState([]);
 
 	const handleCardClick = (el:any) => {
 		console.log(el);
 		Router.push(`/services/${el.slug}`);
 		
 	};
+
+	useEffect(()=>{
+		// categoriesData.map((el,idx)=>{
+		// 	if(el.title.includes('Appliance Repair')) {
+		// 		setServices(el.services);
+		// 	}
+		// });
+
+	},[]);
+
+	
 
 	return (
 		<div>
@@ -60,9 +40,9 @@ export const HomePage: FC = () => {
 			</Wrapper>
 			<Container>
 				<ServicesCategories />
-				<SpecificCategories slidesNo={3} carouselData={carouselData} clickHandler={handleCardClick} title='For Your Home' titleSize={1.1}  />
-				<SpecificCategories carouselData={carouselData} clickHandler={handleCardClick} title='Recently View' titleSize={1.1}  />
-				<SpecificCategories carouselData={carouselData} clickHandler={handleCardClick} title='Trending' titleSize={1.1}  />
+				<SpecificCategories slidesNo={4} carouselData={allServices} clickHandler={handleCardClick} title='For Your Home' titleSize={1.1}  />
+				<SpecificCategories carouselData={allServices} clickHandler={handleCardClick} title='Recently View' titleSize={1.1}  />
+				<SpecificCategories carouselData={allServices} clickHandler={handleCardClick} title='Trending' titleSize={1.1}  />
 				
 			</Container>
 			<WhyChooseUs/>

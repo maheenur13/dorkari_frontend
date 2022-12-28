@@ -22,6 +22,10 @@ class AuthAPI extends BaseAPI {
 		return this.post<BR<any>>('auth/registration', payload);
 	};
 
+	userDetails = (phoneNumber:string)=> {
+		return this.get<BR<any>>(`userDetail/${phoneNumber}`);
+	};
+
 	authGetOTP = (payload: IPayloadGetOTP) => this.post<BR<string>>('auth/register/phone', payload);
 	updatePassword = (payload: IUpdatePassword) => this.post<BR<string>>('auth/update-new-password', payload);
 }

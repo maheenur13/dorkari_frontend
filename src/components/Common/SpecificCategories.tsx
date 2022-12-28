@@ -1,13 +1,7 @@
 import { CardTitle, Carousel } from '@components/Common';
-import { getCategoriesState } from '@store/actions';
-import { HomeOutlined } from '@ant-design/icons';
 import { Card } from 'antd';
-import React, { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
+import React, { FC } from 'react';
 export const SpecificCategories: FC<PropsType> = ({ carouselData, title, titleSize, icon,clickHandler, slidesNo }) => {
-	// const { categoriesData } = useSelector(getCategoriesState);
-
 	
 	const handleItemClick = (el: any) => {
 		clickHandler(el);

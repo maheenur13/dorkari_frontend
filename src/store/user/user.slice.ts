@@ -8,6 +8,7 @@ const initialState: IUserState = {
 	},
 	profile: {
 		id: null,
+		age:null,
 		firstName: null,
 		lastName: null,
 		avatarURL: '/images/avatar.jpg',
@@ -65,6 +66,7 @@ type IProfile = {
 	avatarURL?: string;
 	mobileNumber?: string;
 	email?: string;
+	age:number;
 };
 type IUserState = {
 	popup: IPopup;

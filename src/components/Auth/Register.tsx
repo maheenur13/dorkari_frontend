@@ -14,7 +14,7 @@ export const Register: FC = () => {
 	} = useSelector(getUserState);
 
 	const handleDobChange: DatePickerProps['onChange'] = (date, dateString) => {
-		console.log(moment(date));
+		// console.log(moment(date));
 		console.log(dateString);
 	};
 
@@ -30,6 +30,23 @@ console.log('customDate',customDate);
 		<>
 			{type === 'register' && (
 				<>
+				<Form.Item
+				
+						className="w-100"
+						label="First Name"
+						name="firstName"
+						rules={[{ required: true, message: 'Please Enter your first name!' }]}
+					>
+						<Input />
+					</Form.Item>
+				<Form.Item
+						className="w-100"
+						label="Last Name"
+						name="lastName"
+						rules={[{ required: true, message: 'Please Enter Last name!' }]}
+					>
+						<Input />
+					</Form.Item>
 					<Form.Item
 						className="w-100"
 						label="Phone Number"
@@ -38,6 +55,7 @@ console.log('customDate',customDate);
 					>
 						<Input />
 					</Form.Item>
+					
 					<Form.Item
 						className="w-100"
 						label="Date Of Birth"

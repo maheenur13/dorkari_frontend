@@ -11,36 +11,14 @@ const ServicesCategories = () => {
 	// console.log('ohoo', categoriesData);
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [categoryData, setCategoryData] = useState<any>({});
-	const carouselData: any = [
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Appliance Repair',
-			subCategories: [],
-		},
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Shifting',
-			subCategories: [],
-		},
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Cleaning & Pest Control',
-			subCategories: [],
-		},
-		{
-			imageSrc: '/images/categories/freeze.webp',
-			title: 'Electronics & Gadgets Repair',
-			subCategories: [],
-		},
-	];
+	const [currentCategory, setCurrentCategory] = useState<any>({});
+	const [activeIndex, setActiveIndex] = useState(null);
 
-	useEffect(() => {
-		setCategoriesData(carouselData);
-	}, []);
 
-	const handleItemClick = (el: any) => {
-		setCategoryData(el);
+
+	const handleItemClick = (el: any,index:number) => {
+		setCurrentCategory(el);
+		setActiveIndex(index);
 		setIsModalOpen(true);
 	};
 
@@ -72,7 +50,7 @@ const ServicesCategories = () => {
 					onCancel={handleCancel}
 					footer={false}
 				>
-					<CategoryDetails categoryData={categoryData} />
+					<CategoryDetails setActiveIndex={setActiveIndex} activeIndex={activeIndex} currentCategory={currentCategory} categoryData={categoriesData} />
 				</Modal>
 			</>
 		</div>

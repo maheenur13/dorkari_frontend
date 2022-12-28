@@ -9,9 +9,12 @@ import { Image } from 'react-bootstrap';
 export const Carousel: FC<PropsType> = (props) => {
 	const { data, navigation, clickable, slides, space, bordered, clickHandler, type, bulletIcon = false } = props;
 
-	const handleSliderClick = (el: dataType) => {
-		clickHandler(el);
+	const handleSliderClick = (el: dataType,i:number) => {
+		clickHandler(el,i);
 	};
+
+	console.log('azim  bhai',data);
+	
 
 	return (
 		<Wrapper type={type} className="my-3 p-0">
@@ -30,7 +33,7 @@ export const Carousel: FC<PropsType> = (props) => {
 					data?.map((el, i) => {
 						return (
 							<SwiperSlide
-								onClick={() => handleSliderClick(el)}
+								onClick={() => handleSliderClick(el,i)}
 								key={i}
 								style={{ cursor: 'pointer' }}
 								className={type === 'icon' ? 'p-5 border rounded slider_comp' : ''}
@@ -38,13 +41,13 @@ export const Carousel: FC<PropsType> = (props) => {
 								<ContentWrapper type={type}>
 									{type === 'icon' ? (
 										<>
-											<IconImage src={el?.imageSrc} height={40} width={40} />
+											<IconImage src={el?.iconUrl} alt='image' height={30} width={30} />
 											<Title>{el?.title}</Title>
 										</>
 									) : type === 'image' ? (
 										<>
 											<ImageWrapper>
-												<Image src={el?.imageSrc} className="w-100 h-100" />
+												<Image src={el?.imageUrl} className="w-100 h-100" />
 												<Text className="text_view">Click To View</Text>
 											</ImageWrapper>
 											<Title className="text-center mt-2" style={{ fontSize: '1rem' }}>
@@ -162,7 +165,8 @@ const Title = styled.p`
 `;
 
 type dataType = {
-	imageSrc: string;
+	iconUrl?:string;
+	imageUrl: string;
 	title: string;
 };
 
@@ -174,6 +178,6 @@ type PropsType = {
 	slides: number;
 	space: number;
 	bordered?: boolean;
-	clickHandler?: (el) => any;
+	clickHandler?: (el,i) => any;
 	type: 'icon' | 'image';
 };

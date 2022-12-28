@@ -1,10 +1,10 @@
 import { Breadcrumb } from 'antd';
-import { HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined } from '@ant-design/icons';
 import { FC } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-export const BreadCrumbPanel: FC = () => {
+export const BreadCrumbPanel: FC<any> = ({title}) => {
 	return (
 		<Wrapper>
             <Breadcrumb>
@@ -15,10 +15,10 @@ export const BreadCrumbPanel: FC = () => {
 			</Breadcrumb.Item>
 
 			<Breadcrumb.Item className="text-white">
-				<Link href="/appliar_service">Appliance Service</Link>
+				<Link href="/appliar_service">services</Link>
 			</Breadcrumb.Item>
 
-			<Breadcrumb.Item>Gas Stove or Burner Repair</Breadcrumb.Item>
+			<Breadcrumb.Item>{title}</Breadcrumb.Item>
 		</Breadcrumb>
         </Wrapper>
 	);

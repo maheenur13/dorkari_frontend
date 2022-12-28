@@ -1,4 +1,5 @@
-import { Avatar, Comment, Tooltip } from 'antd';
+import { Avatar, Tooltip } from 'antd';
+import { Comment } from '@ant-design/compatible';
 import React, { createElement, FC, useState } from 'react';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
 

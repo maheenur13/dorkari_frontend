@@ -4,7 +4,6 @@ import store from '@store';
 import { authPopup, authSignIn, authSignOut } from '@store/actions';
 import moment from 'moment';
 import { destroyCookie, setCookie } from 'nookies';
-import { useDispatch } from 'react-redux';
 
 // const dispatch = useDispatch();
 /**
@@ -13,10 +12,6 @@ import { useDispatch } from 'react-redux';
  */
 export const setAuthUser = async (data: IAuth): Promise<void> => {
 	const { token, ...rest } = data;
-	// setCookie(null, 'token', token, {
-	// 	maxAge: 2 * 24 * 60 * 60,
-	// 	path: '/',
-	// });
 	store.dispatch(authSignIn(rest));
 	store.dispatch(authPopup({ isActive: false, type: null }));
 };
@@ -26,8 +21,11 @@ export const loggedInUser = async (values: any, type: string) => {
 		try {
 			const { data, success, message } = await authAPI.login(values);
 			if (success) {
+				console.log(data);
+				
 				notifyAlert('success', 'User Logged In Successfully!');
-				store.dispatch(authPopup({ isActive: false, type: null }));
+				setAuthUser(data);
+				// store.dispatch(authPopup({ isActive: false, type: null }));
 			} else {
 				notifyAlert('error', message);
 			}
@@ -44,7 +42,7 @@ export const loggedInUser = async (values: any, type: string) => {
 				console.log(data);
 
 				notifyAlert('success', 'Account Created Successfully!');
-				store.dispatch(authPopup({ isActive: false, type: null }));
+				store.dispatch(authPopup({ isActive: false, type: 'register' }));
 			} else {
 				notifyAlert('error', message);
 			}
@@ -54,7 +52,21 @@ export const loggedInUser = async (values: any, type: string) => {
 	}
 };
 
-export const getUserData = () => {};
+export const getUserData = async (phoneNumber: string) => {
+	try {
+		const { data, success, message } = await authAPI.userDetails(phoneNumber);
+		if (success) {
+			// console.log(data);
+			notifyAlert('success', 'You are logged in');
+			setAuthUser(data);
+			// store.dispatch(authPopup({ isActive: false, type: null }));
+		} else {
+			notifyAlert('error', message);
+		}
+	} catch (error) {
+		notifyAlert('error', error, error);
+	}
+};
 
 /**
  * Revoke app user access
@@ -83,4 +95,5 @@ export interface IAuth {
 	dateOfBirth: Date;
 	token: string;
 	email?: string;
+	age:number;
 }
