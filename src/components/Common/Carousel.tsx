@@ -4,16 +4,14 @@ import { Pagination, Navigation } from 'swiper';
 import { FC } from 'react';
 import styled, { css } from 'styled-components';
 import NextImg from 'next/image';
-import { Image } from 'react-bootstrap';
 
 export const Carousel: FC<PropsType> = (props) => {
-	const { data, navigation, clickable, slides, space, bordered, clickHandler, type, bulletIcon = false } = props;
+	const { data, navigation, clickable, slides, space, bordered, clickHandler, type, bulletIcon = false,dataType } = props;
 
 	const handleSliderClick = (el: dataType,i:number) => {
 		clickHandler(el,i);
 	};
 
-	console.log('azim  bhai',data);
 	
 
 	return (
@@ -47,12 +45,16 @@ export const Carousel: FC<PropsType> = (props) => {
 									) : type === 'image' ? (
 										<>
 											<ImageWrapper>
-												<Image src={el?.imageUrl} className="w-100 h-100" />
+												<NextImg src={el?.imageUrl} height={200} width={200} layout='responsive' alt='carousel Image'  />
 												<Text className="text_view">Click To View</Text>
 											</ImageWrapper>
-											<Title className="text-center mt-2" style={{ fontSize: '1rem' }}>
+											<Title className={`${dataType? 'text-start' : 'text-center'} mt-2`} style={{ fontSize: '1rem' }}>
 												{el?.title}
 											</Title>
+											{
+												dataType &&
+											<p style={{fontSize:'14px',marginTop:'11px'}} className=' text-start mb-0 '>Tk {el.price}</p>	
+											}
 										</>
 									) : null}
 								</ContentWrapper>
@@ -125,6 +127,8 @@ const ImageWrapper = styled.div`
 	border-radius: 1rem;
 	overflow: hidden;
 	position: relative;
+	min-height: 190px;
+	max-height: 195px;
 	
 	.text_view {
 		display: none;
@@ -168,6 +172,7 @@ type dataType = {
 	iconUrl?:string;
 	imageUrl: string;
 	title: string;
+	price?:number;
 };
 
 type PropsType = {
@@ -180,4 +185,5 @@ type PropsType = {
 	bordered?: boolean;
 	clickHandler?: (el,i) => any;
 	type: 'icon' | 'image';
+	dataType?:string;
 };

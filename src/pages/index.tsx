@@ -1,7 +1,7 @@
 import { HomePage } from '@components/Components';
 import { MainLayout } from '@components/Layouts';
 import { categoryAPI } from '@libs/api';
-import { getAllServiceType, setCategoriesData } from '@store/categories/categories.actions';
+import { getAllPropertyData, getAllServiceType, setCategoriesData } from '@store/categories/categories.actions';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import {useEffect} from 'react';
@@ -12,6 +12,7 @@ const Home: NextPage = (props:any) => {
 	useEffect(() => {
 		setCategoriesData(props.categoryData || []);
 		getAllServiceType();
+		getAllPropertyData();
 	}, []);
 	
 	return (

@@ -8,7 +8,7 @@ import { authPopup, getUserState } from '@store/actions';
 import { authPageType } from '@utils/types';
 import { useSelector } from 'react-redux';
 
-const AuthPage: FC = () => {
+const AuthPage: FC<any> = ({setDob}) => {
 	const dispatch = useDispatch();
 	const {
 		popup: { isActive, type },
@@ -36,7 +36,7 @@ const AuthPage: FC = () => {
 						key: 'register',
 						title: 'Register',
 						icon: UserAddOutlined,
-						page: <Register />,
+						page: <Register setDob={setDob} />,
 					},
 				].map((Icon, _) => {
 					return {

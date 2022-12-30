@@ -5,7 +5,11 @@ export const MainLayout: FC<PropsType> = ({ children }) => {
 	return (
 		<>
             <Header/>
-			<main>{children}</main>
+			<main >
+				<div>
+				{children}
+				</div>
+			</main>
 			<CopyRight/>
 		</>
 	);

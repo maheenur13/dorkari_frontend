@@ -2,19 +2,31 @@ import { AuthPopup } from '@components/Auth';
 import { authPopup, getUserState } from '@store/actions';
 import { revokeAuthUser } from '@store/user/user.actions';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Avatar, Dropdown, message, Tag } from 'antd';
+import { Avatar, Dropdown, message, Modal, Tag } from 'antd';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import type { MenuProps } from 'antd';
+import ProfileComp from '@components/Proflile';
 
 export const Header: FC = () => {
 	const { profile } = useSelector(getUserState);
+	const [showModal, setShowModal] = useState(false);
 	const router = useRouter();
 	const dispatch = useDispatch();
 
 	console.log('profff', profile);
+
+	const hndleOkay = ()=> {
+		setShowModal(false);
+	};
+	const handleShowModal = ()=> {
+		setShowModal(true);
+	};
+	const handleCancel = ()=> {
+		setShowModal(false);
+	};
 
 	const handleLogin = () => {
 		dispatch(authPopup({ isActive: true, type: 'signin' }));
@@ -25,10 +37,12 @@ export const Header: FC = () => {
 		console.log('click left button', e);
 	};
 
-	const handleMenuClick: MenuProps['onClick'] = (e) => {
+	const handleMenuClick: MenuProps['onClick'] = (e: any) => {
 		// message.info('Click on menu item.');
 		console.log('click', e);
-		if(e.key === 'logout') revokeAuthUser();
+		if (e.key === 'logout') revokeAuthUser();
+		else if (e.key === 'profile') setShowModal(true);
+		else if (e.key === 'orders') router.push('/orders');
 	};
 	const items: MenuProps['items'] | any = [
 		{
@@ -38,9 +52,9 @@ export const Header: FC = () => {
 			icon: <UserOutlined />,
 		},
 		{
-			label: 'Cart',
-			key: 'cart',
-			slug: '/cart',
+			label: 'Orders',
+			key: 'orders',
+			slug: '/orders',
 			icon: <UserOutlined />,
 		},
 		{
@@ -87,6 +101,9 @@ export const Header: FC = () => {
 			</Navbar.Collapse>
 			{/* </Container> */}
 			<AuthPopup />
+			<Modal title="User Profile" onCancel={handleCancel} onOk={hndleOkay} open={showModal} >
+				<ProfileComp />
+			</Modal>
 		</Navbar>
 	);
 };

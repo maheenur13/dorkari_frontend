@@ -11,6 +11,7 @@ import { loggedInUser } from '@store/user/user.actions';
 
 export const AuthPopup: FC = () => {
 	const [isSuccess, setIsSuccess] = useState(false);
+	const [dob,setDob] = useState(null);
 	const dispatch = useDispatch();
 
 	const {
@@ -22,7 +23,9 @@ export const AuthPopup: FC = () => {
 	};
 	const onFinish = async (values: any) => {
 		setIsSuccess(true);
-		loggedInUser(values,type);
+		const newValues = {...values};
+		newValues['dateOfBirth'] = dob;
+		loggedInUser(newValues,type);
 		setIsSuccess(false);
 		
 	};
@@ -50,7 +53,7 @@ export const AuthPopup: FC = () => {
 					autoComplete="off"
 					layout="vertical"
 				>
-					{type === 'forgot-password' ? <ResetPass /> : <AuthPage />}
+					{type === 'forgot-password' ? <ResetPass /> : <AuthPage setDob={setDob} />}
 					<Form.Item className="text-end">
 						<Button
 							loading={isSuccess}

@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { RightOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { BreadCrumbPanel } from '@components/Common/BreadCrumb';
 import { Affix, Button, Card, Col, Modal, RadioChangeEvent, Row, Steps, Tabs, Tag } from 'antd';
@@ -8,12 +8,14 @@ import CartPanel from '../CartPanel';
 import { useSelector } from 'react-redux';
 import { authPopup, getUserState } from '@store/actions';
 import { useDispatch } from 'react-redux';
+import { setProductFunc } from '@store/product/product.action';
 const { Step } = Steps;
 
 type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
 export const ServiceDetails: FC<any> = ({ service, currentServiceType }) => {
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const {profile} = useSelector(getUserState);
 	const [top, setTop] = useState(90);
 	const [tabPosition, setTabPosition] = useState<TabPosition>('left');
@@ -26,8 +28,10 @@ export const ServiceDetails: FC<any> = ({ service, currentServiceType }) => {
 	};
 
 	const handleOk = () => {
-		if(profile.email) {
+		if(profile.firstName) {
 			setIsModalOpen(false);
+			setProductFunc(selectedService);
+			router.push('/checkout');
 		}
 		else {
 			dispatch(authPopup({ isActive: true, type: 'signin' }));

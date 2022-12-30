@@ -1,10 +1,10 @@
 import { CardTitle, Carousel } from '@components/Common';
 import { Card } from 'antd';
 import React, { FC } from 'react';
-export const SpecificCategories: FC<PropsType> = ({ carouselData, title, titleSize, icon,clickHandler, slidesNo }) => {
+export const SpecificCategories: FC<PropsType> = ({ carouselData, title, titleSize, icon,clickHandler, slidesNo, dataType=null }) => {
 	
 	const handleItemClick = (el: any) => {
-		clickHandler(el);
+		clickHandler(el,dataType);
 	};
 
 	return (
@@ -15,6 +15,7 @@ export const SpecificCategories: FC<PropsType> = ({ carouselData, title, titleSi
 					space={40}
 					slides={slidesNo || 4}
 					navigation
+					dataType={dataType}
 					data={carouselData}
 					clickHandler={handleItemClick}
 				/>
@@ -28,6 +29,7 @@ type PropsType = {
 	title?: string;
 	titleSize?: number;
 	icon?: any;
-	clickHandler?: (el:any) => void;
+	clickHandler?: (el:any,dataType:string) => void;
 	slidesNo?:number;
+	dataType?:string;
 };

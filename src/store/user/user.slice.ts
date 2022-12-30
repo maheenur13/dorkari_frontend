@@ -8,11 +8,12 @@ const initialState: IUserState = {
 	},
 	profile: {
 		id: null,
+		_id: null,
 		age:null,
 		firstName: null,
 		lastName: null,
 		avatarURL: '/images/avatar.jpg',
-		mobileNumber: null,
+		phoneNumber: null,
 	},
 	isAuthenticate: false,
 };
@@ -61,10 +62,11 @@ type IPopup = {
 };
 type IProfile = {
 	id: string;
+	_id: string;
 	firstName: string;
 	lastName: string;
 	avatarURL?: string;
-	mobileNumber?: string;
+	phoneNumber?: string;
 	email?: string;
 	age:number;
 };

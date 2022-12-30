@@ -124,10 +124,6 @@ const EachService: NextPage = () => {
 			setCurrentServiceType(allServiceType.filter((el)=>el.serviceName === service?.title));
 		}
 	},[service]);
-	console.log('lol',service);
-	console.log('currentServiceType',currentServiceType);
-	console.log('allServices',allServices);
-	console.log('allServiceType',allServiceType);
 	
 	return (
 		<ServicesLayout>

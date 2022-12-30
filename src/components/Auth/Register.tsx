@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import type { RangePickerProps } from 'antd/es/date-picker';
 
-export const Register: FC = () => {
+export const Register: FC<any> = ({setDob}) => {
 	const dispatch = useDispatch();
 	const {
 		popup: { isActive, type },
@@ -15,6 +15,8 @@ export const Register: FC = () => {
 
 	const handleDobChange: DatePickerProps['onChange'] = (date, dateString) => {
 		// console.log(moment(date));
+		// form.setFieldValue({})
+		setDob(dateString);
 		console.log(dateString);
 	};
 

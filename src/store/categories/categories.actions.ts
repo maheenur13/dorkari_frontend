@@ -1,6 +1,6 @@
 import { categoryAPI } from '@libs/api';
 import store from '@store';
-import { setAllServices, setAllServiceType, setCategories } from './categories.slice';
+import { setAllProperties, setAllServices, setAllServiceType, setCategories } from './categories.slice';
 
 export const setCategoriesData = async (data: CategoriesState): Promise<void> => {
 	store.dispatch(setCategories(data));
@@ -34,7 +34,24 @@ export const getAllServiceType = async ()=> {
 		// swalError(error);
 	}
 };
-
+export const getAllPropertyData = async ()=> {
+	try {
+		const { data, success, message } = await categoryAPI.getAllProperty();
+		if (success) {
+			if (data?.length > 0) {
+				// alert('ok');
+				store.dispatch(setAllProperties(data));
+			}
+			else {
+				store.dispatch(setAllProperties([]));
+			}
+		} else {
+			store.dispatch(setAllProperties(data));
+		}
+	} catch (error) {
+		alert(error);
+	}
+};
 type CategoriesState = {
 	imageUrl: string;
 	title: string;

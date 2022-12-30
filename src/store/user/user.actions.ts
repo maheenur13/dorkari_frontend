@@ -34,8 +34,10 @@ export const loggedInUser = async (values: any, type: string) => {
 		}
 	} else if (type === 'register') {
 		const payload = { ...values };
-		payload.dateOfBirth = moment(values.dateOfBirth).format();
-
+		console.log(payload);
+		
+		payload.dateOfBirth = moment(values.dateOfBirth).format('YYYY-MM-DD');
+		// console.log(payload);
 		try {
 			const { data, success, message } = await authAPI.userRegister(payload);
 			if (success) {
@@ -88,6 +90,7 @@ export interface GlobeData {
 }
 export interface IAuth {
 	id: string;
+	_id:string;
 	firstName: string;
 	lastName: string;
 	avatarURL?: string;

@@ -9,12 +9,18 @@ import { useSelector } from 'react-redux';
 import { getCategoriesState } from '@store/actions';
 
 export const HomePage: FC = () => {
-	const { categoriesData,allServices } = useSelector(getCategoriesState);
+	const { categoriesData,allServices,allProperties } = useSelector(getCategoriesState);
 	const [services,setServices] = useState([]);
 
-	const handleCardClick = (el:any) => {
+	const handleCardClick = (el:any,dataType:string) => {
 		console.log(el);
-		Router.push(`/services/${el.slug}`);
+		if(dataType === 'property') {
+			Router.push(`/properties/${el.slug}`);
+		}
+		else {
+			Router.push(`/services/${el.slug}`);
+		}
+		
 		
 	};
 
@@ -42,6 +48,7 @@ export const HomePage: FC = () => {
 				<ServicesCategories />
 				<SpecificCategories slidesNo={4} carouselData={allServices} clickHandler={handleCardClick} title='For Your Home' titleSize={1.1}  />
 				<SpecificCategories carouselData={allServices} clickHandler={handleCardClick} title='Recently View' titleSize={1.1}  />
+				<SpecificCategories carouselData={allProperties} clickHandler={handleCardClick} title='Properties' titleSize={1.1} dataType="property"  />
 				<SpecificCategories carouselData={allServices} clickHandler={handleCardClick} title='Trending' titleSize={1.1}  />
 				
 			</Container>
